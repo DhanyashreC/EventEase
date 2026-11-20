@@ -1,3 +1,4 @@
+import bookingRoutes from "./routes/bookingRoutes";
 import authRoutes from "./routes/authRoutes";
 import eventRoutes from "./routes/eventRoutes";
 import express from "express";
@@ -9,6 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/events", eventRoutes);
+app.use("/api/bookings", bookingRoutes);
 app.get("/", (req, res) => {
   res.json({
     message: "Welcome to EventEase API 🎉",

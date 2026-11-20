@@ -100,3 +100,32 @@ export const getEvents = async (req: Request, res: Response) => {
     });
   }
 };
+export const getEventTicketTypes = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { id } = req.params;
+
+    const ticketTypes = await prisma.ticketType.findMany({
+      where: {
+        eventId: id,
+      },
+      orderBy: {
+        price: "asc",
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      ticketTypes,
+    });
+  } catch (error) {
+    console.error("Get ticket types error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch ticket types",
+    });
+  }
+};

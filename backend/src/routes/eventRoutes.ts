@@ -1,5 +1,10 @@
+
 import { Router } from "express";
-import { createEvent, getEvents } from "../controllers/eventController";
+import {
+  createEvent,
+  getEvents,
+  getEventTicketTypes,
+} from "../controllers/eventController";
 import {
   authenticate,
   authorizeRoles,
@@ -7,6 +12,7 @@ import {
 
 const router = Router();
 router.get("/", getEvents);
+router.get("/:id/tickets", getEventTicketTypes);
 
 // Create event - Organizer only
 router.post(

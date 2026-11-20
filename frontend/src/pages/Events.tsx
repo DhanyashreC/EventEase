@@ -1,4 +1,5 @@
 
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Search, MapPin, SlidersHorizontal, X } from "lucide-react";
@@ -15,9 +16,11 @@ interface Event {
 }
 
 function Events() {
+  const navigate = useNavigate();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  
 
   // Search input states
   const [searchTitle, setSearchTitle] = useState("");
@@ -202,7 +205,19 @@ function Events() {
             {!loading && !error && filteredEvents.length > 0 && (
               <div className="events-grid">
                 {filteredEvents.map((event) => (
-                  <article className="event-card" key={event.id}>
+                  <article
+  className="event-card"
+  key={event.id}
+  onClick={() => navigate(`/events/${event.id}`)}
+  role="button"
+  tabIndex={0}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      navigate(`/events/${event.id}`);
+    }
+  }}
+>
                     {event.imageUrl ? (
                       <img
                         src={event.imageUrl}
