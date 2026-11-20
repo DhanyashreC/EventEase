@@ -77,3 +77,26 @@ export const createEvent = async (req: Request, res: Response) => {
     });
   }
 };
+// ==================== GET EVENTS ====================
+export const getEvents = async (req: Request, res: Response) => {
+  try {
+    const events = await prisma.event.findMany({
+      orderBy: {
+        startDate: "asc",
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      count: events.length,
+      events,
+    });
+  } catch (error) {
+    console.error("Get events error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch events",
+    });
+  }
+};

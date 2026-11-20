@@ -1,17 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Register from "./pages/Register";
 import Home from "./pages/Home";
+import Events from "./pages/Events";
+import Login from "./pages/Login";
 
-function Login() {
-  return <h1>Login Page</h1>;
-}
-
-function Register() {
-  return <h1>Register Page</h1>;
-}
-
-function Events() {
-  return <h1>Events Page</h1>;
-}
+<Route path="/register" element={<Register />} />
 
 function App() {
   return (
