@@ -78,7 +78,7 @@ const MyBookings = () => {
   <div className="my-bookings-page">
     <button
       className="back-button"
-      onClick={() => navigate(-1)}
+      onClick={() => navigate("/")}
     >
       ← Back
     </button>

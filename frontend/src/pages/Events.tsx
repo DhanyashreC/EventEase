@@ -1,6 +1,6 @@
 
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Search, MapPin, SlidersHorizontal, X } from "lucide-react";
 
@@ -17,6 +17,8 @@ interface Event {
 
 function Events() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const categoryFromURL = searchParams.get("category") || "";
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -25,12 +27,12 @@ function Events() {
   // Search input states
   const [searchTitle, setSearchTitle] = useState("");
   const [searchLocation, setSearchLocation] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(categoryFromURL);
 
   // Applied search states
   const [appliedTitle, setAppliedTitle] = useState("");
   const [appliedLocation, setAppliedLocation] = useState("");
-  const [appliedCategory, setAppliedCategory] = useState("");
+  const [appliedCategory, setAppliedCategory] = useState(categoryFromURL);
 
   useEffect(() => {
     const fetchEvents = async () => {

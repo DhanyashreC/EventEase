@@ -1,60 +1,29 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import {
-  Music,
-  Laptop,
-  Rocket,
-  Camera,
-  Utensils,
-  PartyPopper,
-  ArrowRight,
-} from "lucide-react";
 
 interface Event {
   id: string;
   title: string;
-  description: string;
   category: string;
   location: string;
   imageUrl?: string | null;
   startDate: string;
-  endDate: string;
 }
-
-const categoryIcons: Record<string, any> = {
-  Music: Music,
-  Technology: Laptop,
-  Tech: Laptop,
-  Startup: Rocket,
-  Photography: Camera,
-  Food: Utensils,
-  Dance: PartyPopper,
-};
 
 function Categories() {
   const navigate = useNavigate();
-
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/events");
-        const data = await response.json();
-
-        if (response.ok) {
-          setEvents(data.events || []);
-        }
-      } catch (error) {
-        console.error("Failed to fetch events:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
+    fetch("http://localhost:5000/api/events")
+      .then((res) => res.json())
+      .then((data) => {
+        setEvents(data.events || []);
+      })
+      .catch((err) => console.error("Error fetching events:", err))
+      .finally(() => setLoading(false));
   }, []);
 
   const categories = [...new Set(events.map((event) => event.category))];
@@ -63,74 +32,56 @@ function Categories() {
     <>
       <Navbar />
 
-      <main className="categories-page">
-        <section className="categories-header">
-          <span className="section-label">EXPLORE BY INTEREST</span>
+      <div style={{ padding: "60px 8%", color: "white" }}>
+        <h1>
+          Explore <span style={{ color: "#50ead8" }}>Categories</span>
+        </h1>
 
-          <h1>
-            Explore <span>categories.</span>
-          </h1>
+        <p>Discover events based on your interests.</p>
 
-          <p>
-            Find experiences that match your interests and discover something
-            exciting to do.
-          </p>
-        </section>
+        {loading && <p>Loading categories...</p>}
 
-        {loading ? (
-          <p className="categories-loading">Loading categories...</p>
-        ) : categories.length === 0 ? (
-          <p>No categories available yet.</p>
-        ) : (
-          <section className="categories-grid">
-            {categories.map((category) => {
-              const Icon = categoryIcons[category] || PartyPopper;
-
-              const categoryEvents = events.filter(
-                (event) => event.category === category
-              );
-
-              return (
-                <article
-                  key={category}
-                  className="category-card"
-                  onClick={() =>
-                    navigate(`/events?category=${encodeURIComponent(category)}`)
-                  }
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      navigate(
-                        `/events?category=${encodeURIComponent(category)}`
-                      );
-                    }
-                  }}
-                >
-                  <div className="category-icon">
-                    <Icon size={28} />
-                  </div>
-
-                  <div className="category-card-content">
-                    <h3>{category}</h3>
-
-                    <p>
-                      {categoryEvents.length} event
-                      {categoryEvents.length !== 1 ? "s" : ""}
-                    </p>
-                  </div>
-
-                  <ArrowRight
-                    size={20}
-                    className="category-arrow"
-                  />
-                </article>
-              );
-            })}
-          </section>
+        {!loading && categories.length === 0 && (
+          <p>No categories found.</p>
         )}
-      </main>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: "20px",
+            marginTop: "40px",
+          }}
+        >
+          {categories.map((category) => {
+            const count = events.filter(
+              (event) => event.category === category
+            ).length;
+
+            return (
+              <div
+                key={category}
+                onClick={() =>
+                  navigate(`/events?category=${encodeURIComponent(category)}`)
+                }
+                style={{
+                  background: "#151922",
+                  border: "1px solid #2c3542",
+                  padding: "30px",
+                  borderRadius: "16px",
+                  cursor: "pointer",
+                }}
+              >
+                <h2>{category}</h2>
+                <p>{count} events</p>
+                <span style={{ color: "#50ead8" }}>
+                  Explore →
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </>
   );
 }

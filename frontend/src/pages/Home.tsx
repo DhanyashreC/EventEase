@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 import {
   Search,
   MapPin,
@@ -92,6 +93,14 @@ function Home() {
                 <ArrowRight size={18} />
               </button>
             </div>
+            <div className="home-bookings-wrapper">
+  <div className="home-bookings-wrapper">
+  <Link to="/my-bookings" className="home-bookings-button">
+    My Bookings
+    <ArrowRight size={18} />
+  </Link>
+</div>
+</div>
 
             <div className="hero-stats">
               <div>

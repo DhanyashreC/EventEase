@@ -16,7 +16,7 @@ function Navbar() {
       <div className="nav-links">
         <Link to="/">Home</Link>
         <Link to="/events">Explore</Link>
-        <a href="#categories">Categories</a>
+        <Link to="/categories">Categories</Link>
 
         {token && <Link to="/my-bookings">My Bookings</Link>}
       </div>
