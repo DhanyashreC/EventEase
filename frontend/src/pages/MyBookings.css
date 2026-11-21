@@ -1,0 +1,156 @@
+.my-bookings-page {
+  min-height: 100vh;
+  padding: 40px 8%;
+  background: #0b1120;
+  color: #ffffff;
+}
+
+.my-bookings-header {
+  margin-bottom: 35px;
+}
+
+.my-bookings-header h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #67e8f9;
+}
+
+.my-bookings-header p {
+  color: #94a3b8;
+  font-size: 16px;
+}
+
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 900px;
+}
+
+.booking-card {
+  background: #111827;
+  border: 1px solid #263449;
+  border-radius: 16px;
+  padding: 28px;
+  transition: 0.3s ease;
+}
+
+.booking-card:hover {
+  border-color: #22d3ee;
+  transform: translateY(-3px);
+}
+
+.booking-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.booking-card-header h2 {
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.booking-status {
+  background: rgba(34, 211, 238, 0.12);
+  color: #67e8f9;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.booking-code {
+  color: #94a3b8;
+  margin-bottom: 25px;
+}
+
+.booking-code strong {
+  color: #67e8f9;
+}
+
+.booking-ticket-details {
+  border-top: 1px solid #263449;
+  border-bottom: 1px solid #263449;
+  padding: 18px 0;
+}
+
+.booking-ticket-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  color: #cbd5e1;
+}
+
+.booking-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 17px;
+}
+
+.booking-total strong {
+  color: #67e8f9;
+  font-size: 22px;
+}
+
+.booking-date {
+  color: #64748b;
+  font-size: 13px;
+  margin-top: 20px;
+}
+
+.empty-bookings {
+  text-align: center;
+  padding: 70px 20px;
+  background: #111827;
+  border: 1px solid #263449;
+  border-radius: 16px;
+}
+
+.empty-bookings h2 {
+  margin-bottom: 12px;
+}
+
+.empty-bookings p {
+  color: #94a3b8;
+}
+
+@media (max-width: 600px) {
+  .my-bookings-page {
+    padding: 25px 5%;
+  }
+
+  .booking-card {
+    padding: 20px;
+  }
+
+  .booking-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .booking-card-header h2 {
+    font-size: 20px;
+  }
+}
+.back-button {
+  background: transparent;
+  border: 1px solid #263449;
+  color: #67e8f9;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 25px;
+  transition: 0.3s ease;
+}
+
+.back-button:hover {
+  background: rgba(34, 211, 238, 0.1);
+  border-color: #22d3ee;
+  transform: translateX(-3px);
+}

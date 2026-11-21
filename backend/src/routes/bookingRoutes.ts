@@ -1,10 +1,13 @@
 import { Router } from "express";
-import { createBooking } from "../controllers/bookingController";
+import {
+  createBooking,
+  getMyBookings,
+} from "../controllers/bookingController";
 import { authenticate } from "../middleware/authMiddleware";
 
 const router = Router();
 
-// Create booking - logged-in users only
 router.post("/", authenticate, createBooking);
+router.get("/my-bookings", authenticate, getMyBookings);
 
 export default router;

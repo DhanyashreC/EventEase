@@ -1,3 +1,4 @@
+import MyBookings from "./pages/MyBookings";
 import TicketBooking from "./pages/TicketBooking";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetails />} />
         <Route path="/events/:id/book" element={<TicketBooking />} />
+        <Route path="/my-bookings" element={<MyBookings />} />
       </Routes>
     </BrowserRouter>
   );

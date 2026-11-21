@@ -29,6 +29,8 @@ function TicketBooking() {
   const [loading, setLoading] = useState(true);
   const [ticketLoading, setTicketLoading] = useState(true);
   const [error, setError] = useState("");
+  const [bookingLoading, setBookingLoading] = useState(false);
+const [bookingError, setBookingError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -98,6 +100,67 @@ function TicketBooking() {
       };
     });
   };
+  const handleBooking = async () => {
+  setBookingError("");
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Please log in before booking tickets.");
+    return;
+  }
+
+  const selectedItems = tickets
+    .filter((ticket) => (quantities[ticket.id] || 0) > 0)
+    .map((ticket) => ({
+      ticketTypeId: ticket.id,
+      quantity: quantities[ticket.id],
+    }));
+
+  if (selectedItems.length === 0) {
+    setBookingError("Please select at least one ticket.");
+    return;
+  }
+
+  setBookingLoading(true);
+
+  try {
+    const response = await fetch("http://localhost:5000/api/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        eventId: event?.id,
+        items: selectedItems,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Booking failed");
+    }
+
+    const bookingCode = data.booking?.bookingCode;
+
+    alert(
+      `🎉 Booking successful!${
+        bookingCode ? `\\nBooking Code: ${bookingCode}` : ""
+      }`
+    );
+
+    // Reset selected quantities after successful booking
+    setQuantities({});
+  } catch (err) {
+    setBookingError(
+      err instanceof Error ? err.message : "Failed to create booking."
+    );
+  } finally {
+    setBookingLoading(false);
+  }
+};
 
   const totalTickets = Object.values(quantities).reduce(
     (total, quantity) => total + quantity,
@@ -258,15 +321,17 @@ function TicketBooking() {
               <strong>₹{totalPrice.toLocaleString("en-IN")}</strong>
             </div>
 
-            <button
-              className="proceed-booking-button"
-              disabled={totalTickets === 0}
-              onClick={() =>
-                alert("Booking confirmation will be implemented next! 🎟️")
-              }
-            >
-              Continue
-            </button>
+           <button
+  className="proceed-booking-button"
+  disabled={totalTickets === 0 || bookingLoading}
+  onClick={handleBooking}
+>
+  {bookingLoading ? "Booking..." : "Confirm Booking"}
+</button>
+
+{bookingError && (
+  <p className="booking-error">{bookingError}</p>
+)}
 
             <p className="booking-note">
               Select at least one ticket to continue. Maximum 10 tickets per

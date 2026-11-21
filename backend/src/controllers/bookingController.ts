@@ -170,3 +170,37 @@ export const createBooking = async (req: Request, res: Response) => {
     });
   }
 };
+export const getMyBookings = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user!.userId;
+
+    const bookings = await prisma.booking.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        event: true,
+        items: {
+          include: {
+            ticketType: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      bookings,
+    });
+  } catch (error) {
+    console.error("Get my bookings error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch bookings",
+    });
+  }
+};
